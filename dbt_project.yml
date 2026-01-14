@@ -36,7 +36,24 @@ clean-targets:         # directories to be removed by `dbt clean`
 # using the `{{ config(...) }}` macro.
 
 models:
-  my_new_project:
-    # Applies to all files under models/example/
-    example:
-      +materialized: table
+  mi_proyecto_tpch: 
+    
+    # 1.  STAGING
+    staging:
+      +materialized: view
+      +schema: staging
+      +tags: ["source"]
+
+    # 2.  INTERMEDIATE
+    intermediate:
+      +materialized: view # O ephemeral si no quieres crear objetos
+      +schema: intermediate
+
+    # 3. MARTS (Business Layer)
+    marts:
+      +materialized: table # Aquí sí queremos TABLAS físicas para rendimiento
+      +schema: marts
+      main:
+        +tags: ["main_model"]
+      finance:
+        +tags: ["finance_report"]
