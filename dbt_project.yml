@@ -42,7 +42,8 @@ models:
     staging:
       +materialized: view
       +schema: staging
-      +tags: ["source"]
+      tpch:
+        +tags: ["source"]
 
     # 2.  INTERMEDIATE
     intermediate:
