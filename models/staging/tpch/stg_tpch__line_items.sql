@@ -34,6 +34,5 @@ renamed as (
 select * from renamed
 
 {% if is_incremental() %}
-  -- incremental
   where ship_date > (select max(ship_date) from {{ this }})
 {% endif %}

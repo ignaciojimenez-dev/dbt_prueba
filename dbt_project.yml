@@ -1,17 +1,9 @@
-
-# Name your project! Project names should contain only lowercase characters
-# and underscores. A good package name should reflect your organization's
-# name or the intended use of these models
 name: 'mi_proyecto_tpch'
 version: '1.0.0'
 config-version: 2
 
-# This setting configures which "profile" dbt uses for this project.
 profile: 'default'
 
-# These configurations specify where dbt should look for different types of files.
-# The `model-paths` config, for example, states that models in this project can be
-# found in the "models/" directory. You probably won't need to change these!
 model-paths: ["models"]
 analysis-paths: ["analyses"]
 test-paths: ["tests"]
@@ -19,42 +11,56 @@ seed-paths: ["seeds"]
 macro-paths: ["macros"]
 snapshot-paths: ["snapshots"]
 
-target-path: "target"  # directory which will store compiled SQL files
-clean-targets:         # directories to be removed by `dbt clean`
+target-path: "target"
+clean-targets:
   - "target"
   - "dbt_packages"
 
-
-# Configuring models
-# Full documentation: https://docs.getdbt.com/docs/configuring-models
-
-# In dbt, the default materialization for a model is a view. This means, when you run 
-# dbt run or dbt build, all of your models will be built as a view in your data platform. 
-# The configuration below will override this setting for models in the example folder to 
-# instead be materialized as tables. Any models you add to the root of the models folder will 
-# continue to be built as views. These settings can be overridden in the individual model files
-# using the `{{ config(...) }}` macro.
-
+# ----------------------------------------------------------------
+# CONFIGURACIÓN DE MODELOS (Materialización y Permisos)
+# ----------------------------------------------------------------
 models:
-  mi_proyecto_tpch: 
+  mi_proyecto_tpch:
     
-    # 1.  STAGING
+    # 1. STAGING (Vistas, datos crudos)
     staging:
       +materialized: view
       +schema: staging
       tpch:
-        +tags: ["source"]
+        +tags: ["source_layer"]
 
-    # 2.  INTERMEDIATE
+    # 2. INTERMEDIATE (Lógica de negocio)
     intermediate:
-      +materialized: view # O ephemeral si no quieres crear objetos
+      +materialized: view
       +schema: intermediate
 
-    # 3. MARTS (Business Layer)
+    # 3. MARTS (Tablas finales para consumo)
     marts:
-      +materialized: table # Aquí sí queremos TABLAS físicas para rendimiento
+      +materialized: table
       +schema: marts
+      # Cada vez que dbt cree estas tablas, dará permiso de lectura a todo el mundo.
+      +grants:
+        select: ['PUBLIC'] 
+      
       main:
-        +tags: ["main_model"]
+        +tags: ["domain_sales"]
       finance:
-        +tags: ["finance_report"]
+        +tags: ["domain_finance"]
+
+# ----------------------------------------------------------------
+# CONFIGURACIÓN DE TESTS 
+# ----------------------------------------------------------------
+# Aquí definimos el comportamiento de los tests según la carpeta donde estén
+tests:
+  mi_proyecto_tpch:
+    
+    # Tests de Staging: Si fallan, solo avisan (Warn).
+    staging:
+      +severity: warn
+      +store_failures: true # Guarda las filas erróneas en la BBDD para auditar
+      +tags: ["quality_raw"]
+
+    # Tests de Marts: Si fallan, detienen todo 
+    marts:
+      +severity: error
+      +tags: ["quality_business"]
