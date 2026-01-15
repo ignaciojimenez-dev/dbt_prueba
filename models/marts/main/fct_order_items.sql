@@ -1,3 +1,4 @@
+-- modelo de marts, union de las ordernes de compra junto a los item de cada compra.
 with order_items as (
     select * from {{ ref('int_order_items_extended') }}
 ),
@@ -31,4 +32,4 @@ select
 
 from order_items oi
 inner join orders o 
-    on oi.order_id = o.order_id
+    on oi.order_id = o.order_key
