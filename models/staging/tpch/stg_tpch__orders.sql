@@ -1,18 +1,30 @@
-with source as (
-    select * from {{ source('tpch', 'orders') }}
-),
+{{
+    config(
+        materialized='incremental',
+        unique_key='order_key' 
+    )
+}}
 
-renamed as (
-    select
-        o_orderkey as order_id,
-        o_custkey as customer_id,
-        o_orderstatus as order_status,
-        o_totalprice as total_price,
-        o_orderdate as order_date,
-        o_orderpriority as order_priority,
-        o_clerk as clerk_name,
-        o_shippriority as ship_priority
-    from source
-)
+select
+    -- Identificadores
+    o_orderkey as order_key,
+    o_custkey as customer_id,
 
-select * from renamed
+    -- Estados y Prioridades
+    o_orderstatus as order_status,
+    o_orderpriority as order_priority,
+    o_shippriority as ship_priority,
+
+    -- Detalles financieros y temporales
+    o_orderdate as order_date,
+    o_totalprice as total_price,
+
+    -- Información administrativa / Metadatos
+    o_clerk as clerk_name,
+    o_comment as order_comment
+
+from {{ source('tpch', 'orders') }}
+
+{% if is_incremental() %}
+  where o_orderdate > (select max(order_date) from {{ this }})
+{% endif %}

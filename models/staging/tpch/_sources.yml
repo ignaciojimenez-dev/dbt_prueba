@@ -9,7 +9,7 @@ sources:
       - name: customer
       - name: lineitem
       - name: part       # Productos
-      - name: supplier   # Proveedores
-      - name: nation     # Países ( enriquecer dimensiones)
+      - name: supplier   
+      - name: nation     
       - name: region
       - name: partsupp     
