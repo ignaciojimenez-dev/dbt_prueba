@@ -8,21 +8,21 @@ orders as (
 )
 
 select
-    -- IDs (Surrogate Keys y Foreign Keys)
+    -- IDs 
     oi.line_item_id,
     oi.order_id,
-    o.customer_id, -- Traído desde Orders
+    o.customer_id, 
     oi.part_id,
     oi.supplier_id,
     
-    -- Dimensiones Degeneradas y Fechas
+
     o.order_date,
     oi.ship_date,
     o.order_priority,
     oi.return_flag,
     oi.status_code,
     
-    -- Métricas (Pasamos las calculadas previamente)
+
     oi.quantity,
     oi.base_price,
     oi.discount_percentage,

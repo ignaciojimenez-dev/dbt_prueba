@@ -4,7 +4,7 @@ config-version: 2
 
 profile: 'default'
 
-model-paths: ["models"]
+model-paths: ["models", "docs"]
 analysis-paths: ["analyses"]
 test-paths: ["tests"]
 seed-paths: ["seeds"]
@@ -50,11 +50,11 @@ models:
 # ----------------------------------------------------------------
 # CONFIGURACIÓN DE TESTS 
 # ----------------------------------------------------------------
-# Aquí definimos el comportamiento de los tests según la carpeta donde estén
+#  definimos el comportamiento de los tests en funcion de la carpeta donde estan
 tests:
   mi_proyecto_tpch:
     
-    # Tests de Staging: Si fallan, solo avisan (Warn).
+    # Tests de Staging: Si fallan, solo avisan.
     staging:
       +severity: warn
       +store_failures: true # Guarda las filas erróneas en la BBDD para auditar

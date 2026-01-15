@@ -1,0 +1,13 @@
+version: 2
+
+models:
+  - name: fct_order_items
+    description: '{{ doc("table_events_desc") }}'  # referencia al doc de docs/
+    columns:
+      - name: line_item_id
+        description: "Clave subrogada única (Hash) para cada línea."
+        tests:
+          - unique
+          - not_null
+      - name: net_charge_price
+        description: "Precio final tras descuentos e impuestos."
