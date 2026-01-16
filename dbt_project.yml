@@ -22,25 +22,25 @@ clean-targets:
 models:
   mi_proyecto_tpch:
     
-    # 1. STAGING (Vistas, datos crudos)
+    # 1. STAGING (Vistas, raw data)
     staging:
       +materialized: view
       +schema: staging
       tpch:
         +tags: ["source_layer"]
 
-    # 2. INTERMEDIATE (Lógica de negocio)
+    # 2. INTERMEDIATE 
     intermediate:
       +materialized: view
       +schema: intermediate
 
-    # 3. MARTS (Tablas finales para consumo)
+    # 3. MARTS 
     marts:
       +materialized: table
       +schema: marts
       # Cada vez que dbt cree estas tablas, dará permiso de lectura a todo el mundo.
       +grants:
-        select: ['PUBLIC'] 
+        select: ['reporter_role']
       
       main:
         +tags: ["domain_sales"]

@@ -5,7 +5,7 @@ models:
     description: '{{ doc("table_events_desc") }}'  # referencia al doc de docs/
     columns:
       - name: line_item_id
-        description: "Clave subrogada única (Hash) para cada línea."
+        description: "Clave subrogada Hash para cada linea."
         tests:
           - unique
           - not_null

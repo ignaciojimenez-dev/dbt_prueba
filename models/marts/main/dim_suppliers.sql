@@ -11,7 +11,7 @@ select
     s.supplier_address,
     s.supplier_phone,
     s.account_balance,
-    -- Datos Geográficos enriquecidos
+    -- Datos geograficos enriquecidos en interm
     l.nation_name,
     l.region_name
 from suppliers s

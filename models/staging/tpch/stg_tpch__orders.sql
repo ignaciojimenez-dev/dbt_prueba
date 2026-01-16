@@ -15,11 +15,11 @@ select
     o_orderpriority as order_priority,
     o_shippriority as ship_priority,
 
-    -- Detalles financieros y temporales
+    -- Detalles financieros 
     o_orderdate as order_date,
     o_totalprice as total_price,
 
-    -- Información administrativa / Metadatos
+    -- Información administrativa 
     o_clerk as clerk_name,
     o_comment as order_comment
 
