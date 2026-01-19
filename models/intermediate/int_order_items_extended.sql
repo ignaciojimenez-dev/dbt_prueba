@@ -1,4 +1,4 @@
-modelo 
+--modelo intermedio, creacion de precio neto y neto con impuestos
 with line_items as (
     select * from {{ ref('stg_tpch__line_items') }}
 )
