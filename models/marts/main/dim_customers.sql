@@ -12,7 +12,7 @@ select
     c.customer_phone,
     c.account_balance,
     c.market_segment,
-    -- Datos geograficos enriquecidos
+    -- Datos geograficos enriquecidos desde intermediate
     l.nation_name,
     l.region_name
 from customers c

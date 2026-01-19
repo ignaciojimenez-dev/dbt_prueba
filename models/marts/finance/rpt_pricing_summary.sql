@@ -7,7 +7,7 @@ select
     return_flag,
     status_code,
     
-    -- Agregaciones (Sumas y Promedios)
+    -- Agregaciones 
     sum(quantity) as sum_qty,
     sum(base_price) as sum_base_price,
     sum(discounted_price) as sum_disc_price, -- col pre-calculada
@@ -23,7 +23,7 @@ from
     fct_orders
 
 where
-    -- Lógica del filtro de fecha Q1: fechas congeladas
+    -- filtro de fecha Q1, registros congelados en el tiempo
     ship_date <= dateadd(day, -90, to_date('1998-12-01'))
 
 group by
