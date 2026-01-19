@@ -17,12 +17,12 @@ clean-targets:
   - "dbt_packages"
 
 # ----------------------------------------------------------------
-# CONFIGURACIÓN DE MODELOS (Materialización y Permisos)
+# CONFIGURACION DE MODELOS
 # ----------------------------------------------------------------
 models:
   mi_proyecto_tpch:
     
-    # 1. STAGING (Vistas, raw data)
+    # 1. STAGING: Vistas, raw data y rename.
     staging:
       +materialized: view
       +schema: staging
@@ -38,7 +38,7 @@ models:
     marts:
       +materialized: table
       +schema: marts
-      # Cada vez que dbt cree estas tablas, dará permiso de lectura a todo el mundo.
+      # permiso de lectura al rol que se quiera , cada vez que dbt cree estas tablas o full refreash
       +grants:
         select: ['reporter_role']
       

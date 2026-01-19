@@ -1,4 +1,5 @@
 -- modelo de marts, union de las ordernes de compra junto a los item de cada compra.
+--añadido fecha del pedido
 with order_items as (
     select * from {{ ref('int_order_items_extended') }}
 ),
